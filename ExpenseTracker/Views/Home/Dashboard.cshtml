@@ -1,0 +1,229 @@
+﻿@using ExpenseTracker.Models
+@{
+    Layout = null;
+    var categories = ViewBag.Categories as List<Category>;
+    var expenses = ViewBag.Expenses as List<Expense>;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #467160;
+            height: 100vh;
+            color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+            .sidebar img {
+                border-radius: 50%;
+                width: 80px;
+                margin-bottom: 10px;
+            }
+
+            .sidebar h3 {
+                margin-top: 0;
+                font-size: 18px;
+            }
+
+        .menu-item {
+            margin-bottom: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+            .menu-item i {
+                margin-right: 10px;
+            }
+
+            .menu-item a {
+                color: white;
+                text-decoration: none;
+            }
+
+            .menu-item:hover {
+                text-decoration: underline;
+            }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .header .logo {
+                font-size: 24px;
+                font-weight: bold;
+                color: #467160;
+            }
+
+        .dashboard-content {
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+            .card h4 {
+                margin-bottom: 15px;
+                font-size: 18px;
+            }
+
+            .card table {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+                .card table th, .card table td {
+                    padding: 10px;
+                    border-bottom: 1px solid #ddd;
+                }
+
+        .chart {
+            height: 200px;
+            background-color: #e0ece4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .quick-access-buttons .btn {
+            background-color: #467160;
+            color: white;
+            border: none;
+        }
+
+        i.bi {
+            font-size: 18px;
+        }
+
+        /* Additional Styling */
+        .table thead th {
+            background-color: #f8f9fa;
+            text-align: left;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div>
+            <img src="path_to_profile_image.jpg" alt="Profile Picture">
+            <h3>Diovic Solon</h3>
+            <p>Expense Tracker</p>
+        </div>
+        <div class="menu">
+            <div class="menu-item"><i class="bi bi-house-door"></i><a href="#">Dashboard</a></div>
+            <div class="menu-item"><i class="bi bi-wallet2"></i><a href="/Home/Expense">Expenses</a></div>
+            <div class="menu-item"><i class="bi bi-folder"></i><a href="/Home/Category">Category</a></div>
+            <div class="menu-item"><i class="bi bi-graph-up"></i><a href="#">Reporting & Analytics</a></div>
+            <div class="menu-item"><i class="bi bi-gear"></i><a href="#">Settings & Preferences</a></div>
+        </div>
+        <div class="menu-item"><i class="bi bi-box-arrow-left"></i><a href="/Home/Logout">Log Out</a></div>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <div class="logo">.budgET</div>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Quick Access Section -->
+            <div class="card">
+                <h4>Quick Access</h4>
+                <div class="quick-access-buttons">
+                    <a href="/Home/AddExpense" class="btn">
+                        <i class="bi bi-plus-circle"></i> Add Expense
+                    </a>
+                    <a href="/Home/Category" class="btn">
+                        <i class="bi bi-folder-plus"></i> Add Category
+                    </a>
+                    <a href="/Home/GenerateReport" class="btn">
+                        <i class="bi bi-file-earmark-text"></i> Generate Report
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dynamic Categories Section -->
+            <div class="card">
+                <h4>Categories</h4>
+                <div class="row">
+                    @if (categories != null && expenses != null)
+                    {
+                        @foreach (var category in categories)
+                        {
+                            <div class="col-md-6">
+                                <a href="/Home/Category" style="text-decoration: none; color: inherit;">
+                                    <h5><i class="bi bi-folder"></i> @category.CategoryName</h5>
+                                </a>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var expense in expenses.Where(e => e.CategoryId == category.CategoryId))
+                                        {
+                                            <tr>
+                                                <td>@expense.Title</td>
+                                                <td>@expense.Date.ToString("MM/dd/yyyy")</td>
+                                                <td>₱@expense.Amount.ToString("N2")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <p>No categories or expenses available</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

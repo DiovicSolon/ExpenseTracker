@@ -1,0 +1,136 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            max-width: 100%;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+            .login-container .left-side {
+                background-color: #467160;
+                color: white;
+                padding: 60px;
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .login-container .right-side {
+                background-color: #fef7ed;
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+        .right-side h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #467160;
+        }
+
+        .form-container {
+            width: 80%;
+        }
+
+        .right-side input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 18px;
+        }
+
+        .right-side button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #467160;
+            color: white;
+            font-size: 18px;
+        }
+
+        .right-side .link {
+            text-align: center;
+            margin-top: 20px;
+            display: block;
+            color: #467160;
+        }
+
+            .right-side .link a {
+                color: #467160;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .right-side .link a:hover {
+                    text-decoration: underline;
+                }
+
+        .logo {
+            font-size: 50px;
+            text-align: center;
+        }
+
+            .logo .dot {
+                font-size: 70px;
+                font-weight: bold;
+            }
+
+            .logo .text-light {
+                font-weight: 300;
+            }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="left-side">
+            <div class="logo">
+                <span class="dot">.</span><span>budg</span><span class="text-light">ET</span>
+                <p>expense tracker</p>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="form-container">
+                <h2>Log In</h2>
+                <form action="/Home/Login" method="post">
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input type="password" name="password" placeholder="Password" required />
+                    <button type="submit">Log In</button>
+                    <a href="#" class="link">Forgot password?</a>
+                    <div class="link">
+                        No account yet? <a href="/Home/SignUp">Register</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
